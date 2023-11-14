@@ -39,15 +39,6 @@ function logOut()
 <style scoped>
 .nav-link.active, .nav-link.active:hover
 {
-  background-color: #393c41 !important
-}
-
-body {
-  font-family: 'Nunito', sans-serif;
-}
-
-.admin-content
-{
-  background-color: #1c1d20
+  /* background-color: #393c41 !important */
 }
 </style>

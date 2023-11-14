@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark vh-100">
         <a href="" class="d-flex align-items-center justify-content-center w-100 mb-3 mb-md-0 me-md-auto text-white text-decoration-none p-3">
-            <img src="@/assets/svg/kanji-branco.svg" width="100" class="d-block">
+            <!-- <img src="@/assets/svg/kanji-branco.svg" width="100" class="d-block"> -->
         </a>
 
         <ul class="nav nav-pills flex-column mb-auto mt-5">
