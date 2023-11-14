@@ -1,0 +1,44 @@
+version: '3.3'
+
+services:
+  app:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    container_name: laravue_api
+    volumes:
+      - ./src:/laravue_api
+    ports:
+      - 8001:8080
+    environment:
+      - APACHE_RUN_USER=#1000
+      - APACHE_RUN_GROUP=#1000
+      - XDEBUG_CONFIG="remote_host=host.docker.internal remote_port=9001 remote_enable=1"
+      - COMPOSER_MEMORY_LIMIT=-1
+    depends_on:
+      - db
+    networks:
+      - laravue_api_network
+  db:
+    container_name: laravue_api_database
+    image: mariadb:10.1.36
+    environment:
+      MARIADB_ROOT_PASSWORD: laravue
+      MARIADB_USER: laravue
+      MARIADB_PASSWORD: laravue
+      MARIADB_DATABASE: laravue
+      MYSQL_ROOT_PASSWORD: laravue
+      MYSQL_USER: laravue
+      MYSQL_PASSWORD: laravue
+      MYSQL_DATABASE: laravue
+      command: --default-authentication-plugin=mysql_native_password --sql_mode="ALLOW_INVALID_DATES"
+    volumes:
+      - ./docker/database/laravue_api_database:/docker-entrypoint-initdb.d
+      - ./docker/database/laravue_api_database/data:/var/lib/mysql
+    ports:
+      - 8002:3306
+    networks:
+      - laravue_api_network
+networks:
+  laravue_api_network:
+    driver: bridge
