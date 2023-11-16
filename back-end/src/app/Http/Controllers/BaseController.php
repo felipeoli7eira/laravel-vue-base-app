@@ -43,7 +43,7 @@ class BaseController extends Controller
     {
         $response = [
             'success' => false,
-            'status'  => 'error',
+            'status_text'  => 'error',
             'message' => $error,
         ];
 

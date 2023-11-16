@@ -2,28 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use AdvancedJsonRpc\Response;
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\User\UserProfileUpdate;
 use App\Models\User as ModelsUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\User\UserStore;
 use App\Http\Requests\User\UserUpdate;
+use App\Http\Resources\UserResource;
+use DateTimeImmutable;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class User extends BaseController
 {
-    public function getCurrentAuthUser()
+    /**
+     * Return the current authenticated user
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getCurrentAuthUser(): JsonResponse
     {
         if (!auth()->check()) {
             return $this->sendError('Unauthenticated', code: 401);
         }
 
         $user = ModelsUser::where('id', auth()->user()->id)->with('roles')->first();
-        $user->role = $user->roles->first()->name;
-        unset($user->roles);
 
-        return $this->sendResponse('Usuário autenticado', response_data: $user);
+        $response = new UserResource($user);
+
+        return $this->sendResponse('Usuário autenticado', response_data: $response);
     }
 
     /**
@@ -215,5 +226,48 @@ class User extends BaseController
 
         // nothing to update
         return redirect()->back();
+    }
+
+    /**
+     * Autentica o usuario criando um token de acesso no banco
+     *
+     * @param LoginRequest $request
+     * @return JsonResponse|Response
+     */
+    public function login(LoginRequest $request)
+    {
+        if (! Auth::attempt($request->only(['email', 'password']))) {
+            return $this->sendError('Credenciais inválidas! Verifique e tente novamente.', code: 400);
+        }
+
+        $user = ModelsUser::where('email', $request->email)->first();
+
+        $user->tokens()->delete();
+
+        $authentication_token = $user->createToken(
+            $user->email,
+            ['role:' . $user->roles->first()->name],
+            expiresAt: new DateTimeImmutable('+ 1 hour')
+        )->plainTextToken;
+
+        return $this->sendResponse('Bem-vindo(a) ' . $user->name, response_data: ['auth' => $authentication_token]);
+    }
+
+    public function loginError()
+    {
+        return $this->sendError('Realize login para acessar os recursos da aplicação', code: $unprocessable_content = 422);
+    }
+
+    /**
+     * Remove o token de acesso do banco
+     *
+     * @param Request $request
+     * @return JsonResponse|Response
+     */
+    public function logout(Request $request): JsonResponse|Response
+    {
+        $request->user()->tokens()->delete();
+
+        return $this->sendResponse('Usuário desconectado!');
     }
 }

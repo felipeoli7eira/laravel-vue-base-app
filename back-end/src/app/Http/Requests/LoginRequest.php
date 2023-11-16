@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Controllers\BaseController;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use \Illuminate\Contracts\Validation\Validator;
@@ -60,12 +61,7 @@ class LoginRequest extends FormRequest
 
     public function failedValidation(Validator $validator)
     {
-        $response = new JsonResponse([
-            'status'  => 'error',
-            'success' => false,
-            'message' => 'Erro ao tentar realizar login. Verifique os dados e tente novamente.',
-            'data'    => $validator->errors()->all()
-        ], $bad_request = 400);
+        $response = (new BaseController)->sendError('Erro ao tentar realizar login. Verifique os dados e tente novamente.', data: $validator->errors()->all(), code: $bad_request = 400);
 
         throw new ValidationException($validator, $response);
     }
