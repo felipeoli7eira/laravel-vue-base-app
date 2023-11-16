@@ -3,6 +3,7 @@ FROM node:lts-alpine
 WORKDIR /usr/laravue_app_frontend
 
 RUN npm install -g http-server
+RUN npm install -g @vue/cli
 
 COPY ./app/package*.json ./
 
