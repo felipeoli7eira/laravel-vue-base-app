@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Lato';
+    src: url('@/assets/font/Lato-Black.ttf') format('ttf'),
+    url('@/assets/font/Lato-Bold.ttf')       format('ttf'),
+    url('@/assets/font/Lato-Light.ttf')      format('ttf'),
+    url('@/assets/font/Lato-Regular.ttf')    format('ttf'),
+    url('@/assets/font/Lato-Thin.ttf')       format('ttf');
+}
+
+body
+{
+    font-family: 'Lato', sans-serif !important;
+}

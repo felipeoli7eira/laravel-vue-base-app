@@ -4,12 +4,15 @@ import * as auth from '@/services/auth.js'
 import { useToast } from 'vue-toastification'
 import { useRouter } from 'vue-router'
 
-const toast  = useToast()
-const router = useRouter()
+import InputText from 'primevue/inputtext';
+import Button from 'primevue/button';
 
-const email = ref('')
-const password = ref('')
-let loginIsRunning = ref(false)
+const toast  = useToast();
+const router = useRouter();
+
+const email = ref('');
+const password = ref('');
+let loginIsRunning = ref(false);
 
 async function login()
 {
@@ -37,7 +40,7 @@ async function login()
       return false
     }
 
-    const token = login.data.data.bearer
+    const token = login.data.data.auth
 
     auth.setToken(token)
 
@@ -59,35 +62,32 @@ async function login()
 </script>
 
 <template>
-  <div class="login-form d-flex flex-column align-items-center justify-content-center vh-100 bg-light overflow-auto">
-    <form class="d-flex flex-column align-items-center">
-        <!-- <img src="@/assets/svg/kanji-preto.svg" class="d-inline-block mb-4" width="200"> -->
+  <div class="h-screen w-screen flex align-items-center justify-content-center">
+    <form @submit.prevent="submit" class="flex flex-column gap-4 col-10 sm:col-6 md:col-4 lg:col-3">
 
-        <div class="d-flex align-items-center mb-2 border p-1 px-4 bg-body rounded-pill mt-5">
-            <img src="@/assets/svg/user.svg">
-            <input name="email" @keydown.enter="login" class="form-control border-0 bg-none shadow-none" min="6" max="191" autofocus type="email" autocomplete="off" placeholder="E-mail" v-model="email">
-        </div>
+      <img src="@/assets/svg/vue.svg" class="login-logo-app">
 
-        <div class="d-flex align-items-center mb-2 border p-1 px-4 bg-body rounded-pill">
-            <img src="@/assets/svg/lock.svg">
-            <input name="password" @keydown.enter="login" id="password" class="form-control border-0 bg-none shadow-none" min="6" max="191" type="password" placeholder="••••••" autocomplete="off" v-model="password">
-        </div>
+      <span class="p-float-label">
+          <InputText class="w-full" type="text" inputId="email" name="email" id="email" size="large" v-model="email" />
+          <label for="email">E-mail</label>
+      </span>
 
-        <!-- <p class="ps-3 m-0 fw-light text-center text-danger mb-2 w-100">Dados incorretos ou usuário não encontrado</p> -->
+      <span class="p-float-label">
+          <InputText class="w-full" type="password" inputId="password" name="password" id="password" size="large" v-model="password" />
+          <label for="password">Senha</label>
+      </span>
 
-        <div class="d-grid w-100 mt-5">
-          <button @click="login" class="btn btn-dark rounded-pill p-2 fw-bold shadow-sm" type="button">
-            <span>LOGIN</span>
-            <span v-if="loginIsRunning" class="ms-2 spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-          </button>
-
-          <vs-button color="primary" type="filled">Primary</vs-button>
-
-        </div>
+      <Button size="large" label="LOGIN" icon="pi pi-arrow-right" class="font-semibold" :loading="loginIsRunning" iconPos="right" @click="login" />
     </form>
   </div>
 </template>
 
 
 <style scoped>
+.login-logo-app
+{
+  max-width: 150px;
+  display: inline-block;
+  margin: 0 auto;
+}
 </style>

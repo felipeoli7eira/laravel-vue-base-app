@@ -1,40 +1,43 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-import axiosInstance from './services/http.js'
-import VueAxios from 'vue-axios'
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
 
-// toast lib setup
-import Toast from 'vue-toastification'
-import 'vue-toastification/dist/index.css'
+// axios
+import axiosInstance from './services/http.js';
+import VueAxios from 'vue-axios';
 
-// vuesax lib setup
-import Vuesax from 'vuesax3'
-import 'vuesax3/dist/vuesax.css'
+// normalize.css
+import 'normalize.css/normalize.css';
 
-// material icons
-import 'material-icons/iconfont/material-icons.css'
+// primeVue
+import PrimeVue from 'primevue/config';
+import 'primeflex/primeflex.css';
+import 'primeicons/primeicons.css'
 
+// toast
+import Toast from 'vue-toastification';
+import 'vue-toastification/dist/index.css';
 
-// App custom styles
-import "@/assets/css/app/app.css"
+// app custom styles
+import "@/assets/css/app.css";
 
-// Pinia (state manager)
-import { createPinia } from 'pinia'
+// pinia
+import { createPinia } from 'pinia';
 
 // sweetalert2
-import VueSweetalert2 from 'vue-sweetalert2'
-import 'sweetalert2/dist/sweetalert2.min.css'
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
-const app = createApp(App)
+const app = createApp(App);
 
-app.use(Toast, {})
-app.use(VueAxios, axiosInstance)
-app.use(createPinia())
-app.use(VueSweetalert2)
-app.use(router)
-app.use(Vuesax, {})
+app.use(Toast, {});
+app.use(VueAxios, axiosInstance);
+app.use(createPinia());
+app.use(VueSweetalert2);
+app.use(router);
+app.use(PrimeVue);
 
-app.provide('$http', app.config.globalProperties.$http)
+app.provide('$http', app.config.globalProperties.$http);
+app.provide('$primevue', app.config.globalProperties.$primevue);
 
-app.mount('#app')
+app.mount('#app');

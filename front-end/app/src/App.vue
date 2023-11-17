@@ -1,15 +1,15 @@
 <template>
-  <div class="container-fluid admin-main-grid">
-    <div class="row">
-      <div v-if="!is_login_screen" class="col col-2 p-0 m-0 navigation-side">
+  <!-- <div class="">
+    <div class="">
+      <div v-if="!is_login_screen" class="">
         <sidenav />
       </div>
 
-      <div class="admin-content content-side overflow-auto col m-0 p-0 vh-100" :class="col_content">
+      <div class=""> -->
         <router-view />
-      </div>
+      <!-- </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script setup>
