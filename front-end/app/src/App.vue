@@ -13,26 +13,26 @@
 </template>
 
 <script setup>
-import { RouterView, useRoute } from 'vue-router'
-import { ref, watch } from 'vue'
-import sidenav from '@/components/sidenav.vue'
+import { RouterView, useRoute } from 'vue-router';
+import { ref, watch } from 'vue';
+import sidenav from '@/components/sidenav.vue';
 
-let is_login_screen = ref(false)
-const route = useRoute()
+let is_login_screen = ref(false);
+const route = useRoute();
 
-watch(route, ({name}) => is_login_screen.value = name === 'auth.login')
+watch(route, ({name}) => is_login_screen.value = name === 'auth.login');
 
 function col_content()
 {
   return {
     'col-10': !is_login_screen,
     'col-12': is_login_screen
-  }
+  };
 }
 
 function logOut()
 {
-  console.log('...')
+  console.log('...');
 }
 </script>
 

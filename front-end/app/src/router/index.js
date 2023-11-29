@@ -1,7 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '../views/HomeView.vue';
 
-import * as auth from '@/services/auth.js'
+import * as auth from '@/services/auth.js';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VIE_BASE_URL),
@@ -53,7 +53,7 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
   ]
-})
+});
 
 router.beforeEach(async (to, from) => {
 
@@ -64,6 +64,6 @@ router.beforeEach(async (to, from) => {
       return { name: 'auth.login' }
     }
   }
-})
+});
 
-export default router
+export default router;

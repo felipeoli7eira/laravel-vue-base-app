@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue'
-import * as auth from '@/services/auth.js'
-import { useToast } from 'vue-toastification'
-import { useRouter } from 'vue-router'
+import { ref } from 'vue';
+import * as auth from '@/services/auth.js';
+import { useToast } from 'vue-toastification';
+import { useRouter } from 'vue-router';
 
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
@@ -18,54 +18,54 @@ async function login()
 {
   try
   {
-    loginIsRunning.value = true
+    loginIsRunning.value = true;
 
-    const login = await auth.attempt(email.value, password.value)
+    const login = await auth.attempt(email.value, password.value);
 
     if (login === false) {
-      loginIsRunning.value = false
-      toast.error('Erro não identificado no login.')
-      return false
+      loginIsRunning.value = false;
+      toast.error('Erro não identificado no login.');
+      return false;
     }
 
     if (login?.success === false) {
-      loginIsRunning.value = false
-      toast.error(login.message)
-      return false
+      loginIsRunning.value = false;
+      toast.error(login.message);
+      return false;
     }
 
     if (login?.status !== 200) {
-      loginIsRunning.value = false
-      toast.error('Erro não identificado no login.')
-      return false
+      loginIsRunning.value = false;
+      toast.error('Erro não identificado no login.');
+      return false;
     }
 
-    const token = login.data.data.auth
+    const token = login.data.data.auth;
 
-    auth.setToken(token)
+    auth.setToken(token);
 
-    toast.success(login.data.message)
+    toast.success(login.data.message);
 
-    router.push({name: 'home'})
+    router.push({name: 'home'});
 
-    return true
+    return true;
   }
   catch (error)
   {
-    loginIsRunning.value = false
-    console.warn(error)
-    toast.error('Erro não identificado no login.')
-    return false
+    loginIsRunning.value = false;
+    console.warn(error);
+    toast.error('Erro não identificado no login.');
+    return false;
   }
 }
 
 </script>
 
 <template>
-  <div class="h-screen w-screen flex align-items-center justify-content-center">
-    <form @submit.prevent="submit" class="flex flex-column gap-4 col-10 sm:col-6 md:col-4 lg:col-3">
+  <div class="h-screen w-screen flex align-items-center justify-content-center border">
+    <form @submit.prevent="submit" class="flex flex-column gap-4 col-10 sm:col-6 md:col-4 lg:col-2">
 
-      <img src="@/assets/svg/vue.svg" class="login-logo-app">
+      <!-- <img src="@/assets/svg/vue.svg" class="login-logo-app"> -->
 
       <span class="p-float-label">
           <InputText class="w-full" type="text" inputId="email" name="email" id="email" size="large" v-model="email" />
