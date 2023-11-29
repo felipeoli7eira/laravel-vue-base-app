@@ -12,31 +12,61 @@ const router = useRouter();
 
 const email = ref('');
 const password = ref('');
+const email_field_error = ref(false)
+const password_field_error = ref(false)
+
 let loginIsRunning = ref(false);
 
+/**
+ * valida os campos do formulario de login
+ * @return {bool} true para campos devidamente preenchidos, false para o cenario oposto
+*/
+function formValidated()
+{
+  // * valida campos vazios
+
+  if (email.value.trim().length === 0) {
+    email_field_error.value = true;
+    return false;
+  }
+
+  email_field_error.value = false;
+
+  if (password.value.trim().length === 0) {
+    password_field_error.value = true;
+    return false;
+  }
+
+  password_field_error.value = false;
+
+  // * se necesario no futuro, adicionar mais regras de validacao.
+  return true;
+}
+
+/**
+ * envia os dados preenchidos no formulario para o backend validar
+ * @return {never} redireciona para o admin ou exibe um toast com o erro
+*/
 async function login()
 {
   try
   {
+    const form_validated = formValidated()
+    if (!form_validated) {
+      return false;
+    }
+
     loginIsRunning.value = true;
-
     const login = await auth.attempt(email.value, password.value);
+    loginIsRunning.value = false;
 
-    if (login === false) {
-      loginIsRunning.value = false;
+    if (login === false || login?.status !== 200) {
       toast.error('Erro não identificado no login.');
       return false;
     }
 
     if (login?.success === false) {
-      loginIsRunning.value = false;
       toast.error(login.message);
-      return false;
-    }
-
-    if (login?.status !== 200) {
-      loginIsRunning.value = false;
-      toast.error('Erro não identificado no login.');
       return false;
     }
 
@@ -64,16 +94,13 @@ async function login()
 <template>
   <div class="h-screen w-screen flex align-items-center justify-content-center border">
     <form @submit.prevent="submit" class="flex flex-column gap-4 col-10 sm:col-6 md:col-4 lg:col-2">
-
-      <!-- <img src="@/assets/svg/vue.svg" class="login-logo-app"> -->
-
       <span class="p-float-label">
-          <InputText class="w-full" type="text" inputId="email" name="email" id="email" size="large" v-model="email" />
+          <InputText @keydown.enter="login" class="w-full" type="text" inputId="email" name="email" id="email" size="large" v-model="email" :class="{'p-invalid': email_field_error}" />
           <label for="email">E-mail</label>
       </span>
 
       <span class="p-float-label">
-          <InputText class="w-full" type="password" inputId="password" name="password" id="password" size="large" v-model="password" />
+          <InputText @keydown.enter="login" class="w-full" type="password" inputId="password" name="password" id="password" size="large" v-model="password" :class="{'p-invalid': password_field_error}" />
           <label for="password">Senha</label>
       </span>
 
@@ -84,10 +111,4 @@ async function login()
 
 
 <style scoped>
-.login-logo-app
-{
-  max-width: 150px;
-  display: inline-block;
-  margin: 0 auto;
-}
 </style>
