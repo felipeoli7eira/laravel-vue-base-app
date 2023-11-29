@@ -1,4 +1,6 @@
 <script setup>
+// * imports
+
 import { ref } from 'vue';
 import * as auth from '@/services/auth.js';
 import { useToast } from 'vue-toastification';
@@ -6,6 +8,8 @@ import { useRouter } from 'vue-router';
 
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
+
+// * props
 
 const toast  = useToast();
 const router = useRouter();
@@ -16,6 +20,9 @@ const email_field_error = ref(false)
 const password_field_error = ref(false)
 
 let loginIsRunning = ref(false);
+
+
+// * methods
 
 /**
  * valida os campos do formulario de login
