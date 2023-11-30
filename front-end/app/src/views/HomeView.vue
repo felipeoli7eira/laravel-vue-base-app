@@ -1,8 +1,8 @@
 <script setup>
-import { onMounted } from 'vue';
 </script>
 
 <template>
-  <div id="home-view">
+  <div id="home-view" class="p-5">
+    <h1 class="text-7xl font-bold text-900 text-center m-0 text-center w-full">LaraVue</h1>
   </div>
 </template>

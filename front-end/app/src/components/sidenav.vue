@@ -1,8 +1,5 @@
 <template>
     <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark vh-100">
-        <a href="" class="d-flex align-items-center justify-content-center w-100 mb-3 mb-md-0 me-md-auto text-white text-decoration-none p-3">
-            <!-- <img src="@/assets/svg/kanji-branco.svg" width="100" class="d-block"> -->
-        </a>
 
         <ul class="nav nav-pills flex-column mb-auto mt-5">
 
@@ -31,25 +28,24 @@
 </template>
 
 <script setup>
-
 import http                    from '@/services/http.js'
 import * as auth               from '@/services/auth.js'
 import { useToast }            from 'vue-toastification'
 import { useRouter, useRoute } from 'vue-router'
 import { useState }            from '@/store/user'
-import { onMounted }           from 'vue'
+// import { onMounted }           from 'vue'
 
 const userState = useState()
 const toast     = useToast()
 const router    = useRouter()
 
-onMounted(async () => {
-    const authenticated_user = await auth.checkAuth()
+// onMounted(async () => {
+//     const authenticated_user = await auth.checkAuth()
 
-    if (authenticated_user) {
-        userState.setUser(authenticated_user)
-    }
-})
+//     if (authenticated_user) {
+//         userState.setUser(authenticated_user)
+//     }
+// })
 
 async function logOut()
 {
